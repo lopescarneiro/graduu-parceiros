@@ -425,10 +425,17 @@ function RegisterGestorScreen({ onBack, onDone, showMsg }) {
         </div>
         {step===1&&<div style={{display:"flex",flexDirection:"column",gap:12,marginTop:16}}>
           <Inp label="Nome completo *" value={nome} onChange={e=>setNome(e.target.value)}/>
-          <Inp label="E-mail *" value={email} onChange={e=>setEmail(e.target.value)} type="email"/>
+          <div>
+            <Inp label="E-mail institucional *" value={email} onChange={e=>setEmail(e.target.value)} type="email" placeholder="seu@fecaf.com.br"/>
+            {email && !email.endsWith("@fecaf.com.br") && <p style={{margin:"4px 0 0",fontSize:12,color:"#dc3545"}}>O e-mail deve ter extensão @fecaf.com.br</p>}
+          </div>
           <Inp label="Telefone *" value={telefone} onChange={e=>setTelefone(e.target.value)} type="tel"/>
           <Inp label="CPF ou CNPJ *" value={cpfCnpj} onChange={e=>setCpfCnpj(e.target.value)}/>
-          <button onClick={()=>{if(!nome||!email||!telefone||!cpfCnpj){showMsg("Preencha todos os campos.","error");return;}setStep(2);}} style={{...btnP,marginTop:4}}>Continuar</button>
+          <button onClick={()=>{
+            if(!nome||!email||!telefone||!cpfCnpj){showMsg("Preencha todos os campos.","error");return;}
+            if(!email.endsWith("@fecaf.com.br")){showMsg("O e-mail do gestor deve ter extensão @fecaf.com.br","error");return;}
+            setStep(2);
+          }} style={{...btnP,marginTop:4}}>Continuar</button>
         </div>}
         {step===2&&<div style={{display:"flex",flexDirection:"column",gap:14,marginTop:16}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
